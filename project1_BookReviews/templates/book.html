@@ -1,0 +1,88 @@
+{% extends "inner_layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}
+Welcome to the Library!
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-danger">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="col">
+            <span class="book-title">{{ book.title }}</span> <span>(ISBN: {{ book.isbn }})</span>
+            <hr/>
+            <ul>
+                <li><b>Author</b>: {{ book.author }}</li>
+                <li><b>Published In</b>: {{ book.year }}</li>
+                <li><b>Goodreads Rating</b>: {{ goodreads_data.average_rating }} (based on {{
+                    goodreads_data.work_ratings_count }} ratings)
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+            {% if can_review %}
+            <h4>Write Your Review:</h4>
+            <form action="{{ url_for('submit_review', book_id=book.id, username=username) }}" method="post">
+                <fieldset class="rating">
+                    <input type="radio" id="star5" name="rating" value="5"/><label for="star5" title="Rocks!">5
+                    stars</label>
+                    <input type="radio" id="star4" name="rating" value="4"/><label for="star4" title="Pretty good">4
+                    stars</label>
+                    <input type="radio" id="star3" name="rating" value="3"/><label for="star3" title="Meh">3
+                    stars</label>
+                    <input type="radio" id="star2" name="rating" value="2"/><label for="star2" title="Kinda bad">2
+                    stars</label>
+                    <input type="radio" id="star1" name="rating" value="1"/><label for="star1" title="Sucks big time">1
+                    star</label>
+                </fieldset>
+                <textarea class="form-control" name="review_content"></textarea>
+                <br/>
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
+            {% endif %}
+
+        </div>
+    </div>
+    <hr/>
+    <div>
+        {% if reviews|length == 0 %}
+        <h3>No Reviews yet for this book</h3>
+        {% endif %}
+        {% if reviews|length > 0 %}
+        <h3>What Readers Think:</h3>
+        <div class="container">
+            {% for review in reviews %}
+            <div class="card bg-dark">
+                <div class="card-body">
+                    <div class="card-body">
+                        <h5><b>
+                            {% if review.username == username%}
+                            {{ 'You' }}
+                            {% else %}
+                            {{ review.username }}
+                            {% endif %}
+                        </b> said:</h5>
+                        <repeat n="{{ review.rating_score }}"></repeat>
+                        <br/>
+                        <q class="card-text">{{ review.content }}</q>
+                        <br/>
+                        <i style="float: right;">{{review.review_time.strftime('%c')}}</i>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

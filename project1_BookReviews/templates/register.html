@@ -1,0 +1,22 @@
+{% extends "outer_layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+
+{% block title %}
+Sign up for the Library!
+{% endblock %}
+
+{% block body %}
+<h1>Complete the form to sign up for the Library</h1>
+
+
+<form method="post">
+    <dl>
+        {{ render_field(form.username) }}
+        {{ render_field(form.password) }}
+        {{ render_field(form.confirm) }}
+    </dl>
+    <p>
+        <button class="btn btn-primary" type=submit value=Register>Register</button>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+body {
+    background-color: #292b2c;
+    color: #f7f7f7;
+}
+
+label {
+    font-weight: bold;
+}
+
+#my-picture {
+    margin: 20px;
+}
+
+@media (min-width: 575px) {
+    #my-picture {
+        max-width: 100%;
+        border: 2px solid #f7f7f7;
+
+    }
+}
+
+@media (max-width: 574px) {
+    body {
+        font-size: small;
+    }
+
+    #my-picture {
+        width: 50%;
+        border: 2px solid #f7f7f7;
+    }
+}
+
+.top-row {
+    font-weight: bold;
+    color: #DAF7A6;
+}
+
+.basic-info {
+    margin: 20px;
+}

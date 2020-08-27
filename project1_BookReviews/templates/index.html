@@ -1,0 +1,40 @@
+{% extends "inner_layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}
+Welcome to the Library!
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <p>Welcome!</p>
+    <p>Start by searching for either:
+    <ul>
+        <li>An ISBN number</li>
+        <li>A Book Title</li>
+        <li>An Author</li>
+    </ul>
+    </p>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form action="{{ url_for('search') }}" method="post">
+            <dl>
+                {{ render_field(form.query, class='form-control', placeholder='Search for a book') }}
+            </dl>
+            <div class="form-group">
+                <button class="btn btn-success btn-lg" type="submit">GO</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

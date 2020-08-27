@@ -1,0 +1,27 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Edit Entry
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Entry for: {{ title }}</h1>
+    <form action="{% url 'encyclopedia:edit_entry' title=title %}" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Submit Entry" class="btn btn-success">
+    </form>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        new SimpleMDE({
+            element: document.getElementsByTagName("textarea")[0],
+            spellChecker: false,
+            forceSync: true
+        });
+    });
+    </script>
+{% endblock %}
